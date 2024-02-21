@@ -4,4 +4,5 @@ from resources.authentication import UserRegisterResource, UserLoginResource
 routes = (
     (UserRegisterResource, '/signup'),
     (UserLoginResource, '/signin'),
+    # (UserLoginResource, '/topic'),
 )
