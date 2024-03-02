@@ -2,8 +2,9 @@ import datetime
 
 import jwt
 from decouple import config
+from flask_httpauth import HTTPTokenAuth
 from flask_bcrypt import generate_password_hash, check_password_hash
-from werkzeug.exceptions import BadRequest
+from werkzeug.exceptions import BadRequest, Unauthorized
 
 from db import db
 from models.users import UserModel
@@ -46,19 +47,27 @@ class UserAuthManager:
         except Exception as e:
             return e
 
-    # @staticmethod
-    # def decode_auth_token(auth_token):
-    #     """
-    #     Decodes the auth token
-    #     :param auth_token:
-    #     :return: integer|string
-    #     """
-    #     try:
-    #         payload = jwt.decode(auth_token, config('SECRET_KEY'))
-    #         return payload['sub']
-    #     except jwt.ExpiredSignatureError:
-    #         return 'Signature expired. Please log in again.'
-    #     except jwt.InvalidTokenError:
-    #         return 'Invalid token. Please log in again.'
+    @staticmethod
+    def decode_auth_token(auth_token):
+        try:
+            payload = jwt.decode(auth_token, key=config('SECRET_KEY'), algorithms=["HS256"])
+            return payload['sub']
+        except jwt.ExpiredSignatureError:
+            return 'Signature expired. Please log in again.'
+        except jwt.InvalidTokenError:
+            return 'Invalid token. Please log in again.'
 
 
+auth = HTTPTokenAuth(scheme="Bearer")
+
+
+@auth.verify_token
+def verify_token(token):
+    try:
+        user_id = UserAuthManager.decode_auth_token(token)
+        user = UserModel.query.filter_by(id=user_id).first()
+        if not user:
+            raise Unauthorized('Invalid or missing token')
+        return user
+    except Exception as ex:
+        raise Unauthorized('Invalid or missing token')

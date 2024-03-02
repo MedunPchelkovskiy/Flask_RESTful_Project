@@ -17,3 +17,18 @@ class CreatePostResponseSchema(Schema):
     topic_creation_date_time = fields.DateTime(required=True)
     post_to_topic = fields.Integer(required=True)
     post_author = fields.Integer(required=True)
+
+
+class GetTopicsResponseSchema(CreateTopicResponseSchema):
+    pass
+
+class GetPostsResponseSchema(CreatePostResponseSchema):
+    pass
+
+
+class GetTopicWithPostsResponseSchema(CreateTopicResponseSchema):
+    posts = fields.List(fields.Nested(CreatePostResponseSchema))
+
+
+
+
