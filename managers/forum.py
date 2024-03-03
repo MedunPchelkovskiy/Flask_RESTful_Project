@@ -30,8 +30,8 @@ class PostManager:
 
     @staticmethod
     def create_post(data):
-        # current_user = ?
-        # data["topic_author"] = current_user.id
+        current_user = auth.current_user()
+        data["post_author"] = current_user.username
         post = PostModel(**data)
         db.session.add(post)
         db.session.commit()

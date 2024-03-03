@@ -24,10 +24,10 @@ class UserAuthManager:
     def login_user(data):
         user = UserModel.query.filter_by(email=data['email']).first()
         if not user:
-            raise BadRequest('Invalid email or password')
+            raise BadRequest('Please enter a valid email or password!')
 
         if not check_password_hash(user.password, data['password']):
-            raise BadRequest('Invalid email or password')
+            raise BadRequest('Please enter a valid email or password!')
         return user
 
     @staticmethod

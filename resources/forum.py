@@ -3,9 +3,8 @@ from flask_restful import Resource
 
 from managers.authentication import auth
 from managers.forum import TopicManager, PostManager
-from models import TopicModel
-from schemas.response.forum import CreateTopicResponseSchema, CreatePostResponseSchema, GetTopicWithPostsResponseSchema, \
-    GetPostsResponseSchema, GetTopicsResponseSchema
+from schemas.response.forum import CreateTopicResponseSchema, CreatePostResponseSchema, \
+                                   GetTopicWithPostsResponseSchema, GetTopicsResponseSchema
 
 
 class TopicsResource(Resource):
@@ -29,6 +28,13 @@ class PostResource(Resource):
         post = PostManager.create_post(data)
         return CreatePostResponseSchema().dump(post), 201
 
+    def put(self):
+        pass
+
+    # only moderators can delete posts
+    def delete(self):
+        pass
+
 
 class TopicResource(Resource):
 
@@ -39,5 +45,6 @@ class TopicResource(Resource):
     def put(self):
         pass
 
+    # only moderators can delete topics
     def delete(self):
         pass

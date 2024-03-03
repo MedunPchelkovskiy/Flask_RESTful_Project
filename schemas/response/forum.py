@@ -8,7 +8,7 @@ class CreateTopicResponseSchema(Schema):
     topic_name = fields.String(required=True)
     categorys = fields.Enum(Category, by_value=True)
     topic_creation_date_time = fields.DateTime(required=True)
-    topic_author = fields.Integer(required=True)
+    topic_author = fields.String(required=True)
 
 
 class CreatePostResponseSchema(Schema):
@@ -16,7 +16,7 @@ class CreatePostResponseSchema(Schema):
     text_of_post = fields.String(required=True)
     topic_creation_date_time = fields.DateTime(required=True)
     post_to_topic = fields.Integer(required=True)
-    post_author = fields.Integer(required=True)
+    post_author = fields.String(required=True)
 
 
 class GetTopicsResponseSchema(CreateTopicResponseSchema):
