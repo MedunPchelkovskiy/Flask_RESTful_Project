@@ -1,14 +1,17 @@
 from flask import request
 from flask_restful import Resource
 
+from helpers.decorators import validate_schema
 from managers.authentication import auth
 from managers.forum import TopicManager, PostManager
+from schemas.request.forum import CreateTopicRequestSchema, CreatePostRequestSchema
 from schemas.response.forum import CreateTopicResponseSchema, CreatePostResponseSchema, \
-                                   GetTopicWithPostsResponseSchema, GetTopicsResponseSchema
+    GetTopicWithPostsResponseSchema, GetTopicsResponseSchema
 
 
 class TopicsResource(Resource):
 
+    @validate_schema(CreateTopicRequestSchema)
     @auth.login_required
     def post(self):
         data = request.get_json()
@@ -22,6 +25,7 @@ class TopicsResource(Resource):
 
 class PostResource(Resource):
 
+    @validate_schema(CreatePostRequestSchema)
     @auth.login_required
     def post(self):
         data = request.get_json()

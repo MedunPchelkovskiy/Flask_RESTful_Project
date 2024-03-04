@@ -1,21 +1,17 @@
 from marshmallow import Schema, fields
 
-from models.enums import Category
+from schemas.base_schemas import TopicBaseSchema, PostBaseSchema
 
 
-class CreateTopicResponseSchema(Schema):
+class CreateTopicResponseSchema(TopicBaseSchema):
     id = fields.Integer(required=True)
-    topic_name = fields.String(required=True)
-    categorys = fields.Enum(Category, by_value=True)
     topic_creation_date_time = fields.DateTime(required=True)
     topic_author = fields.String(required=True)
 
 
-class CreatePostResponseSchema(Schema):
+class CreatePostResponseSchema(PostBaseSchema):
     id = fields.Integer(required=True)
-    text_of_post = fields.String(required=True)
-    topic_creation_date_time = fields.DateTime(required=True)
-    post_to_topic = fields.Integer(required=True)
+    date_time_of_post = fields.DateTime(required=True)
     post_author = fields.String(required=True)
 
 
