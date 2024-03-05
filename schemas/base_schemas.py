@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields, validate
+from marshmallow import Schema, fields
 
 from models.enums import Category
 
@@ -16,3 +16,8 @@ class TopicBaseSchema(Schema):
 class PostBaseSchema(Schema):
     text_of_post = fields.String(required=True)
     post_to_topic = fields.Integer(required=True)
+
+
+class ProjectBaseSchema(Schema):
+    project_name = fields.String(required=True)
+    project_description = fields.String(required=True)
