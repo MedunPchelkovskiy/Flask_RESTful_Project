@@ -1,7 +1,9 @@
-from marshmallow import Schema, fields
+from schemas.base_schemas import ImagesBaseSchema
 
 
-class ImageResponseSchema(Schema):
+class ImageResponseSchema(ImagesBaseSchema):
+    pass
 
-    image_url = fields.String(required=True)
-    image_uploading_date_time = fields.DateTime(required=True)
+
+class UploadImageResponseSchema(ImagesBaseSchema):
+    pass

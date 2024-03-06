@@ -21,3 +21,9 @@ class PostBaseSchema(Schema):
 class ProjectBaseSchema(Schema):
     project_name = fields.String(required=True)
     project_description = fields.String(required=True)
+
+
+class ImagesBaseSchema(Schema):
+    id = fields.Integer(required=True)
+    image_url = fields.String(required=True)
+    image_uploading_date_time = fields.DateTime(required=True)

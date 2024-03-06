@@ -1,14 +1,15 @@
 from resources.authentication import UserRegisterResource, UserLoginResource
 from resources.forum import TopicsResource, PostResource, TopicResource
+from resources.images import ImagesResource
 from resources.projects import GetBestProjectsResource, ProjectsResource
 
 routes = (
-    (GetBestProjectsResource, '/'),
-    (ProjectsResource, '/projects'),
     (UserRegisterResource, '/signup'),
     (UserLoginResource, '/signin'),
+    (GetBestProjectsResource, '/'),
+    (ProjectsResource, '/projects'),
+    (ImagesResource, '/image'),
     (TopicsResource, '/forum'),
     (TopicResource, '/topic/<int:pk>'),
     (PostResource, '/post'),
-
 )
