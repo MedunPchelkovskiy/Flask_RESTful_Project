@@ -9,7 +9,7 @@ import cloudinary.api
 import json
 
 config = cloudinary.config(secure=True)
-print("****1. Set up and configure the SDK:****\nCredentials: ", config.cloud_name, config.api_key, "\n")
+# print("****1. Set up and configure the SDK:****\nCredentials: ", config.cloud_name, config.api_key, "\n")
 
 
 class ImagesOnCloud:

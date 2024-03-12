@@ -12,5 +12,5 @@ class ProjectModel(db.Model):
     project_creation_date_time = db.Column(db.DateTime, default=datetime.utcnow())
     project_author = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     project_images = db.relationship("ImageModel", back_populates="project", lazy="dynamic")
-    user = db.relationship('UserModel')
+    # user = db.relationship('UserModel')
 

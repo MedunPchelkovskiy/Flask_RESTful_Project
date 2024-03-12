@@ -13,5 +13,5 @@ class ImagesResource(Resource):
     @auth.login_required
     def post(self):
         data = request.get_json()
-        project = ImagesManager.upload_image(data)
-        return UploadImageResponseSchema().dump(project), 201
+        image = ImagesManager.upload_image(data)
+        return UploadImageResponseSchema().dump(image), 201
