@@ -12,3 +12,10 @@ class ProjectsManager:
         db.session.add(project)
         db.session.commit()
         return project
+
+
+class ProjectManager:
+    @staticmethod
+    def get_single_project(project_id):
+        project = ProjectModel.query.filter_by(id=project_id)
+        return project

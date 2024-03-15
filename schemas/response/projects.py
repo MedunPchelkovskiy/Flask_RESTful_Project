@@ -9,3 +9,7 @@ class CreateProjectResponseSchema(ProjectBaseSchema):
     project_creation_date_time = fields.DateTime(required=True)
     project_author = fields.String(required=True)
     project_images = fields.List(fields.Nested(ImageResponseSchema))
+
+
+class GetProjectWithImagesResponseSchema(CreateProjectResponseSchema):
+    pass

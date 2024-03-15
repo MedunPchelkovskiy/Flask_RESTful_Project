@@ -43,7 +43,7 @@ class PostResource(Resource):
 class TopicResource(Resource):
 
     def get(self, pk):
-        topic = TopicManager.get_topic(pk)
+        topic = TopicManager.get_single_topic(pk)
         return GetTopicWithPostsResponseSchema().dump(topic)
 
     def put(self):

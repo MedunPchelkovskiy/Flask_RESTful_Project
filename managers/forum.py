@@ -15,7 +15,7 @@ class TopicManager:
         return topic
 
     @staticmethod
-    def get_topic(topic_id):
+    def get_single_topic(topic_id):
         topic = TopicModel.query.filter_by(id=topic_id).first()
         return topic
 
