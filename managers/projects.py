@@ -19,3 +19,23 @@ class ProjectManager:
     def get_single_project(project_id):
         project = ProjectModel.query.filter_by(id=project_id)
         return project
+
+    @staticmethod
+    def get_project_to_update(project_id):
+        project = ProjectModel.query.get(project_id)
+        return project
+
+    @staticmethod
+    def update_project(data, project):
+        if project.project_name != data["project_name"]:
+            project.project_name = data["project_name"]
+        if project.project_description != data["project_description"]:
+            project.project_description = data["project_description"]
+        db.session.commit()
+        return project
+
+    @staticmethod
+    def delete_project(project):
+        db.session.delete(project)
+        db.session.commit()
+        return

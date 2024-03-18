@@ -1,12 +1,12 @@
+from flask import request
 from flask_restful import Resource
 
 from helpers.decorators import validate_schema
 from managers.authentication import auth
-from flask import request
-
 from managers.projects import ProjectsManager, ProjectManager
 from schemas.request.projects import CreateProjectRequestSchema
-from schemas.response.projects import CreateProjectResponseSchema, GetProjectWithImagesResponseSchema
+from schemas.response.projects import CreateProjectResponseSchema, GetProjectWithImagesResponseSchema, \
+    UpdateProjectResponseSchema
 
 
 class ProjectsResource(Resource):
@@ -24,14 +24,23 @@ class GetBestProjectsResource(Resource):
 
 class ProjectResource(Resource):
     @staticmethod
+    @auth.login_required
     def get(pk):
         project = ProjectManager.get_single_project(pk)
         return GetProjectWithImagesResponseSchema(many=True).dump(project)
 
     @staticmethod
+    @auth.login_required
     def put(pk):
-        pass
+        data = request.get_json()
+        project = ProjectManager.get_project_to_update(pk)
+        updated_project = ProjectManager.update_project(data, project)
+        return UpdateProjectResponseSchema().dump(updated_project), 201
 
     @staticmethod
+    @auth.login_required
     def delete(pk):
-        pass
+        project = ProjectManager.get_project_to_update(pk)
+        project_to_delete = ProjectManager.delete_project(project)
+
+        return "Project was successfully deleted"

@@ -13,3 +13,7 @@ class CreateProjectResponseSchema(ProjectBaseSchema):
 
 class GetProjectWithImagesResponseSchema(CreateProjectResponseSchema):
     pass
+
+
+class UpdateProjectResponseSchema(CreateProjectResponseSchema):
+    pass
