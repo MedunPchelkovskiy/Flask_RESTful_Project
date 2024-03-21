@@ -1,3 +1,7 @@
+from datetime import datetime
+
+from werkzeug.exceptions import BadRequest
+
 from db import db
 from managers.authentication import auth
 from models import ProjectModel
@@ -17,14 +21,16 @@ class ProjectsManager:
 class ProjectManager:
     @staticmethod
     def get_single_project(project_id):
-        # add error when there is no such project in database
         project = ProjectModel.query.filter_by(id=project_id)
+        if not project:
+            raise BadRequest('Project with this id does not exist')
         return project
 
     @staticmethod
     def get_project_to_update(project_id):
-        # add error when there is no such project in database
         project = ProjectModel.query.get(project_id)
+        if not project:
+            raise BadRequest('Project with this id does not exist')
         return project
 
     @staticmethod
@@ -35,6 +41,7 @@ class ProjectManager:
                 project.project_name = data["project_name"]
             if project.project_description != data["project_description"]:
                 project.project_description = data["project_description"]
+            project.project_last_update_date_time = datetime.utcnow()
             db.session.commit()
         return project
 

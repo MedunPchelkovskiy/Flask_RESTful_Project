@@ -12,8 +12,8 @@ class CreateProjectResponseSchema(ProjectBaseSchema):
 
 
 class GetProjectWithImagesResponseSchema(CreateProjectResponseSchema):
-    pass
+    project_last_update_date_time = fields.DateTime(required=True)
 
 
 class UpdateProjectResponseSchema(CreateProjectResponseSchema):
-    pass
+    project_last_update_date_time = fields.DateTime(required=True)

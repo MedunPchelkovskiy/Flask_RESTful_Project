@@ -32,6 +32,7 @@ class ProjectResource(Resource):
     @staticmethod
     @auth.login_required
     def put(pk):
+        data = request.get_json()
         project = ProjectManager.get_project_to_update(pk)
         updated_project = ProjectManager.update_project(data, project)
         return UpdateProjectResponseSchema().dump(updated_project), 201
