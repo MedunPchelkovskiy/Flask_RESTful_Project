@@ -8,6 +8,7 @@ from models import ProjectModel
 
 
 class ProjectsManager:
+
     @staticmethod
     def create_project(data):
         current_user = auth.current_user()
@@ -20,10 +21,17 @@ class ProjectsManager:
 
 class ProjectManager:
     @staticmethod
+    def get_all_projects():
+        projects = ProjectModel.query.order_by(ProjectModel.project_views_counter.desc()).all()
+        return projects
+
+    @staticmethod
     def get_single_project(project_id):
-        project = ProjectModel.query.filter_by(id=project_id)
+        project = ProjectModel.query.filter_by(id=project_id).first()
         if not project:
             raise BadRequest('Project with this id does not exist')
+        project.project_views_counter += 1
+        db.session.commit()
         return project
 
     @staticmethod

@@ -19,7 +19,10 @@ class ProjectsResource(Resource):
 
 
 class GetBestProjectsResource(Resource):
-    pass
+    @staticmethod
+    def get():
+        projects = ProjectManager.get_all_projects()
+        return GetProjectWithImagesResponseSchema(many=True).dump(projects)
 
 
 class ProjectResource(Resource):
@@ -27,7 +30,7 @@ class ProjectResource(Resource):
     @auth.login_required
     def get(pk):
         project = ProjectManager.get_single_project(pk)
-        return GetProjectWithImagesResponseSchema(many=True).dump(project)
+        return GetProjectWithImagesResponseSchema().dump(project)
 
     @staticmethod
     @auth.login_required

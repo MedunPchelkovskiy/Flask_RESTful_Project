@@ -15,16 +15,15 @@ class ImagesManager:
     def upload_image(image_data):
         current_project_id = image_data["image_to_project"]
         current_project = ProjectManager.get_project_to_update(current_project_id)
-        # Преди да създадем обект снимка трябва да качим снимката и да вземем само пътя от облака,
-        # който да запазим в базата данни!
+        # First upload the image in cloud storage and then we get only the path and store it in the data base.
 
         photo_name = f'{str(uuid.uuid4())}'
-        path_to_store_photo = os.path.join(TEMP_FILES_PATH, photo_name)
+        path_to_store_photo = os.path.join(TEMP_FILES_PATH, photo_name)  #Save files temporarly to server and delete it after uploading
         photo_as_string = image_data.pop(
             'image')                         # фронт енд-а ни подава снимката като стринг(base64, to convert jpg => string,
         decode_photo(path_to_store_photo,
                      photo_as_string
-                     )                         # запазваме я временно на сървъра и след това се качва на облака
+                     )
         try:
             ImagesOnCloud.upload_image(path_to_store_photo, photo_name)
             image_url = ImagesOnCloud.get_asset_info(photo_name)
