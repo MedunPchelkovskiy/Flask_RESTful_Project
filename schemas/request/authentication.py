@@ -2,7 +2,7 @@ from marshmallow import fields, ValidationError, validate
 from zxcvbn import zxcvbn
 
 from models import UserModel
-from schemas.base_schemas import BaseUserRequestSchema
+from schemas.base_schemas import BaseUserSchema
 
 
 def check_password_strength(password):
@@ -27,7 +27,7 @@ def check_username_in_database(username):
         pass
 
 
-class UserRegisterRequestSchema(BaseUserRequestSchema):
+class UserRegisterRequestSchema(BaseUserSchema):
     email = fields.Email(required=True,
                          validate=validate.And(check_email_in_database)
                          )
@@ -41,5 +41,5 @@ class UserRegisterRequestSchema(BaseUserRequestSchema):
                              )
 
 
-class UserLoginRequestSchema(BaseUserRequestSchema):
+class UserLoginRequestSchema(BaseUserSchema):
     pass
