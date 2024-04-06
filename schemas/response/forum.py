@@ -22,6 +22,10 @@ class GetPostsResponseSchema(CreatePostResponseSchema):
     pass
 
 
+class EditPostResponseSchema(CreatePostResponseSchema):
+    pass
+
+
 class GetTopicWithPostsResponseSchema(CreateTopicResponseSchema):
     posts = fields.List(fields.Nested(CreatePostResponseSchema))
 

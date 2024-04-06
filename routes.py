@@ -1,5 +1,5 @@
 from resources.authentication import UserRegisterResource, UserLoginResource
-from resources.forum import TopicsResource, PostResource, TopicResource
+from resources.forum import TopicsResource, PostsResource, TopicResource, PostResource
 from resources.images import ImagesResource
 from resources.projects import GetBestProjectsResource, ProjectsResource, ProjectResource
 from resources.user import UserResource
@@ -13,6 +13,7 @@ routes = (
     (ImagesResource, '/image'),
     (TopicsResource, '/forum'),
     (TopicResource, '/topic/<int:pk>'),
-    (PostResource, '/post'),
+    (PostsResource, '/post'),
+    (PostResource, '/post/<int:pk>'),
     (UserResource, '/user/<int:pk>'),
 )

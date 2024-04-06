@@ -22,7 +22,7 @@ class ProjectsManager:
 class ProjectManager:
     @staticmethod
     def get_all_projects():
-        projects = ProjectModel.query.order_by(ProjectModel.project_views_counter.desc()).all()
+        projects = ProjectModel.query.order_by(ProjectModel.project_views_counter).all()
         return projects
 
     @staticmethod

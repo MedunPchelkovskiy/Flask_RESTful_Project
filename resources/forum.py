@@ -6,7 +6,7 @@ from managers.authentication import auth
 from managers.forum import TopicManager, PostManager
 from schemas.request.forum import CreateTopicRequestSchema, CreatePostRequestSchema
 from schemas.response.forum import CreateTopicResponseSchema, CreatePostResponseSchema, \
-    GetTopicWithPostsResponseSchema, GetTopicsResponseSchema
+    GetTopicWithPostsResponseSchema, GetTopicsResponseSchema, EditPostResponseSchema
 
 
 class TopicsResource(Resource):
@@ -23,7 +23,7 @@ class TopicsResource(Resource):
         return GetTopicsResponseSchema(many=True).dump(topics)
 
 
-class PostResource(Resource):
+class PostsResource(Resource):
 
     @validate_schema(CreatePostRequestSchema)
     @auth.login_required
@@ -31,13 +31,6 @@ class PostResource(Resource):
         data = request.get_json()
         post = PostManager.create_post(data)
         return CreatePostResponseSchema().dump(post), 201
-
-    def put(self):
-        pass
-
-    # only moderators can delete posts
-    def delete(self):
-        pass
 
 
 class TopicResource(Resource):
@@ -52,3 +45,21 @@ class TopicResource(Resource):
     # only moderators can delete topics
     def delete(self):
         pass
+
+
+class PostResource(Resource):
+
+    @staticmethod
+    @auth.login_required
+    def put(pk):
+        data = request.get_json()
+        post = PostManager.get_single_post(pk)
+        edited_post = PostManager.edit_post(post, data)
+        return EditPostResponseSchema().dump(edited_post)
+
+    @staticmethod
+    @auth.login_required  # only moderators can delete posts, try to make it with decorator
+    def delete(pk):
+        post = PostManager.get_single_post(pk)
+        post_for_delete = PostManager.delete_post(post)
+        return "Post was deleted from moderator"

@@ -46,4 +46,4 @@ class ProjectResource(Resource):
         project = ProjectManager.get_project_to_update(pk)
         project_to_delete = ProjectManager.delete_project(project)
 
-        return "Project was successfully deleted"
+        return "Project was successfully deleted"  # Try to replace "Project" with name of the project"
