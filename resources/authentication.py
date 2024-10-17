@@ -12,7 +12,18 @@ class UserRegisterResource(Resource):
     def post(self):
         data = request.get_json()
         user = UserAuthManager.create_user(data)
-        token = UserAuthManager.encode_auth_token(user.id)
+        token = UserAuthManager.encode_auth_token(
+            user.id)  # TODO: Replace auth token with email confirmation token, enter site after email link confirmation!
+        confirmation_token = UserAuthManager.generate_confirmation_token(user.email)
+        return UserAuthenticationResponseSchema().dump({"token": token}), 201
+        # return UserAuthenticationResponseSchema().dump({"confirmation_token": confirmation_token}), 201
+
+
+class UserRegisterEmailConfirmationResource(Resource):
+    def post(self):
+        data = request.get_json()
+        # user = UserAuthManager.login_user(data)
+        # token = UserAuthManager.encode_auth_token(user.id)
         return UserAuthenticationResponseSchema().dump({"token": token}), 201
 
 
