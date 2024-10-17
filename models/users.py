@@ -9,6 +9,7 @@ class UserModel(db.Model):
     email = db.Column(db.String(120), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
     username = db.Column(db.String(255), nullable=True, unique=True)
+    # registered_at = db.Column(db.DateTime, nullable=False)                   TODO: add for email confirmation when new user register
     # confirmed = db.Column(db.Boolean, nullable=False, default=False)         TODO: add for email confirmation when new user register
     role = db.Column(db.Enum(RoleType), default=RoleType.user, nullable=False)
     projects = db.relationship('ProjectModel', backref='project', lazy='dynamic')
