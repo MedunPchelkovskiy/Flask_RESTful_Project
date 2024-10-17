@@ -78,7 +78,7 @@ class UserAuthManager:
         return email
 
     @staticmethod
-    def email_register_confirmation(token):             #TODO: think to use encode_auth_token to email confirmation process!!!
+    def email_register_confirmation(token):             #TODO: think to use encode_auth_token to email confirmation process!!!!!!!!
         try:
             email = decode_confirmation_token(token)
         except:
