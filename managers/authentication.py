@@ -4,7 +4,6 @@ import jwt
 from decouple import config
 from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_httpauth import HTTPTokenAuth
-from itsdangerous import URLSafeTimedSerializer
 from werkzeug.exceptions import BadRequest, Unauthorized
 
 from db import db
@@ -20,6 +19,7 @@ class UserAuthManager:
         # confirmed = False TODO: add after make migration for user model to update DB
         db.session.add(user)
         db.session.commit()
+
         return user
 
     @staticmethod
@@ -58,40 +58,6 @@ class UserAuthManager:
             return 'Signature expired. Please log in again.'
         except jwt.InvalidTokenError:
             return 'Invalid token. Please log in again.'
-
-    @staticmethod
-    def generate_confirmation_token(email):
-        serializer = URLSafeTimedSerializer(config['SECRET_KEY'])
-        return serializer.dumps(email, salt=config['SECURITY_PASSWORD_SALT'])
-
-    @staticmethod
-    def decode_confirmation_token(token, expiration=3600):
-        serializer = URLSafeTimedSerializer(config['SECRET_KEY'])
-        try:
-            email = serializer.loads(
-                token,
-                salt=config['SECURITY_PASSWORD_SALT'],
-                max_age=expiration
-            )
-        except:
-            return False
-        return email
-
-    @staticmethod
-    def email_register_confirmation(token):             #TODO: think to use encode_auth_token to email confirmation process!!!!!!!!
-        try:
-            email = decode_confirmation_token(token)
-        except:
-            return 'The confirmation link is invalid or has expired.'
-        user = UserModel.query.filter_by(email=email).first_or_404()
-        if user.confirmed:
-            return 'Account already confirmed. Please login.', 'success'
-        else:
-            user.confirmed = True
-            user.confirmed_on = datetime.datetime.now()
-            db.session.add(user)
-            db.session.commit()
-            return 'You have confirmed your account. Thanks!'
 
 
 auth = HTTPTokenAuth(scheme="Bearer")
