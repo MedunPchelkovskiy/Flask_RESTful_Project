@@ -1,42 +1,35 @@
 from datetime import datetime, timezone
 
 from decouple import config
-from flask_mail import Message
+from flask import url_for, render_template
+from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer
 
 from db import db
 from models import UserModel
+
+mail = Mail()
 
 
 class UserRegisterMailConfirmation:
 
     @staticmethod
     def generate_confirmation_token(email):
-        serializer = URLSafeTimedSerializer(config['SECRET_KEY'])
-        return serializer.dumps(email, salt=config['SECURITY_PASSWORD_SALT'])
+        serializer = URLSafeTimedSerializer(config('SECRET_KEY'))
+        return serializer.dumps(email, salt=config('SECURITY_PASSWORD_SALT'))
 
     @staticmethod
     def decode_confirmation_token(token, expiration=3600):
-        serializer = URLSafeTimedSerializer(config['SECRET_KEY'])
+        serializer = URLSafeTimedSerializer(config('SECRET_KEY'))
         try:
             email = serializer.loads(
                 token,
-                salt=config['SECURITY_PASSWORD_SALT'],
+                salt=config('SECURITY_PASSWORD_SALT'),
                 max_age=expiration
             )
         except:
             return False
         return email
-
-    @staticmethod
-    def send_email(to, subject, template):
-        msg = Message(
-            subject,
-            recipients=[to],
-            html=template,
-            sender=config['MAIL_DEFAULT_SENDER']
-        )
-        mail.send(msg)
 
     @staticmethod
     def confirm_email(token):
@@ -70,3 +63,16 @@ class UserRegisterMailConfirmation:
             db.session.add(user)
             db.session.commit()
             return 'You have confirmed your account. Thanks!'
+
+def send_email(email):
+    confirmation_token = UserRegisterMailConfirmation.generate_confirmation_token(email)
+    confirm_url = url_for("userregisteremailconfirmationresource", token=confirmation_token, _external=True)
+    html = render_template("base_email_template.html", confirm_url=confirm_url)
+    subject = "Please confirm your email"
+    msg = Message(
+        subject,
+        recipients=[email],
+        html=html,
+        sender=config('MAIL_DEFAULT_SENDER')
+    )
+    mail.send(msg)
