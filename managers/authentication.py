@@ -5,6 +5,7 @@ from decouple import config
 from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_httpauth import HTTPTokenAuth
 from werkzeug.exceptions import BadRequest, Unauthorized
+from helpers.mail_confirmation import send_email
 
 from db import db
 from models.users import UserModel
@@ -16,9 +17,11 @@ class UserAuthManager:
         password = data['password']
         data['password'] = generate_password_hash(password, 10).decode('utf8')
         user = UserModel(**data)
-        # confirmed = False TODO: add after make migration for user model to update DB
+        # user.confirmed = False TODO: add after make migration for user model to update DB
         db.session.add(user)
         db.session.commit()
+        mail = user.email
+        send_email(mail)
 
         return user
 
