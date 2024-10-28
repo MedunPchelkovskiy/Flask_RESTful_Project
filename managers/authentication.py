@@ -5,7 +5,7 @@ from decouple import config
 from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_httpauth import HTTPTokenAuth
 from werkzeug.exceptions import BadRequest, Unauthorized
-from helpers.mail_confirmation import send_email
+from helpers.sign_up_confirmation_via_email import send_email
 
 from db import db
 from models.users import UserModel

@@ -29,3 +29,7 @@ typing_extensions==4.9.0
 urllib3==2.2.1
 Werkzeug==3.0.1
 zxcvbn==4.4.28
+
+google-api-python-client~=2.149.0
+google-auth-oauthlib~=1.2.1
+protobuf~=5.28.3

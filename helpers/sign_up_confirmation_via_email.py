@@ -2,13 +2,11 @@ from datetime import datetime, timezone
 
 from decouple import config
 from flask import url_for, render_template
-from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer
 
 from db import db
 from models import UserModel
-
-mail = Mail()
+from serices.gmail_api_services import create_message, send_message, gmail_authenticate
 
 
 class UserRegisterMailConfirmation:
@@ -64,15 +62,17 @@ class UserRegisterMailConfirmation:
             db.session.commit()
             return 'You have confirmed your account. Thanks!'
 
+
 def send_email(email):
     confirmation_token = UserRegisterMailConfirmation.generate_confirmation_token(email)
     confirm_url = url_for("userregisteremailconfirmationresource", token=confirmation_token, _external=True)
     html = render_template("base_email_template.html", confirm_url=confirm_url)
     subject = "Please confirm your email"
-    msg = Message(
-        subject,
-        recipients=[email],
-        html=html,
-        sender=config('MAIL_DEFAULT_SENDER')
+    message = create_message(
+        sender=config('MAIL_DEFAULT_SENDER'),
+        to=email,
+        subject=subject,
+        message_text=html
     )
-    mail.send(msg)
+    service = gmail_authenticate()
+    send_message(service, message)
