@@ -18,9 +18,9 @@ class UserRegisterResource(Resource):
 
 
 class UserRegisterEmailConfirmationResource(Resource):
-    def post(self):
-        data = request.get_json()
-        UserRegisterMailConfirmation.confirm_email(data)
+    @staticmethod
+    def get(token):
+        UserRegisterMailConfirmation.confirm_email(token)
         return 'You have confirmed your account. Thanks!', 201
 
 

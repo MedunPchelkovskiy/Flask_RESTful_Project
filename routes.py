@@ -6,7 +6,7 @@ from resources.user import UserResource
 
 routes = (
     (UserRegisterResource, '/signup'),
-    (UserRegisterEmailConfirmationResource, '/confirm/<token>'),
+    (UserRegisterEmailConfirmationResource, '/confirm/<token>'), # confirmation link from email get method not allowed for requested method!!!
     (UserLoginResource, '/signin'),
     (GetBestProjectsResource, '/'),
     (ProjectsResource, '/projects'),
