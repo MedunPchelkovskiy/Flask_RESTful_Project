@@ -3,15 +3,16 @@ from flask_restful import Resource
 
 from helpers.decorators import validate_schema
 from managers.authentication import auth
-from managers.projects import ProjectsManager, ProjectManager
+from managers.projects import ProjectManager, ProjectsManager
 from schemas.request.projects import CreateProjectRequestSchema
-from schemas.response.projects import CreateProjectResponseSchema, GetProjectWithImagesResponseSchema, \
-    UpdateProjectResponseSchema
+from schemas.response.projects import (CreateProjectResponseSchema,
+                                       GetProjectWithImagesResponseSchema,
+                                       UpdateProjectResponseSchema)
 
 
-class ProjectsResource(Resource):
-    @validate_schema(CreateProjectRequestSchema)
+class ProjectCreateResource(Resource):
     @auth.login_required
+    @validate_schema(CreateProjectRequestSchema)
     def post(self):
         data = request.get_json()
         project = ProjectsManager.create_project(data)

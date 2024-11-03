@@ -1,8 +1,8 @@
-from werkzeug.exceptions import Unauthorized, BadRequest
+from werkzeug.exceptions import BadRequest, Unauthorized
 
 from db import db
 from managers.authentication import auth
-from models import TopicModel, PostModel, RoleType
+from models import PostModel, RoleType, TopicModel
 
 
 class TopicManager:
@@ -47,7 +47,7 @@ class PostManager:
     def get_single_post(post_id):
         post = PostModel.query.get(post_id)
         if not post:
-            raise BadRequest('Post with this id does not exist')
+            raise BadRequest("Post with this id does not exist")
         return post
 
     @staticmethod

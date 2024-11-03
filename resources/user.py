@@ -3,7 +3,8 @@ from flask_restful import Resource
 
 from managers.authentication import auth
 from managers.users import UserManager
-from schemas.response.user import UserUpdateResponseSchema, GetUserResponseSchema
+from schemas.response.user import (GetUserResponseSchema,
+                                   UserUpdateResponseSchema)
 
 
 class UserResource(Resource):
@@ -22,3 +23,11 @@ class UserResource(Resource):
         user = UserManager.get_user_to_update(pk)
         updated_user = UserManager.update_user_role(data, user)
         return UserUpdateResponseSchema().dump(updated_user), 201
+
+    @staticmethod
+    @auth.login_required
+    def delete(pk):
+        user = UserManager.get_single_user(pk)
+        user_to_delete = UserManager.delete_user(user)
+
+        return "User was successfully deleted"  # Try to replace "User" with name of the project"

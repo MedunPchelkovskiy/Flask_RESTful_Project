@@ -29,7 +29,7 @@ class ProjectManager:
     def get_single_project(project_id):
         project = ProjectModel.query.filter_by(id=project_id).first()
         if not project:
-            raise BadRequest('Project with this id does not exist')
+            raise BadRequest("Project with this id does not exist")
         project.project_views_counter += 1
         db.session.commit()
         return project
@@ -38,7 +38,7 @@ class ProjectManager:
     def get_project_to_update(project_id):
         project = ProjectModel.query.get(project_id)
         if not project:
-            raise BadRequest('Project with this id does not exist')
+            raise BadRequest("Project with this id does not exist")
         return project
 
     @staticmethod

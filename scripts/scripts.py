@@ -1,7 +1,7 @@
 from werkzeug.security import generate_password_hash
 
 from db import db
-from models import UserModel, RoleType
+from models import RoleType, UserModel
 
 
 def create_super_user(email, password, username):
@@ -16,5 +16,5 @@ def create_super_user(email, password, username):
     db.session.commit()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     create_super_user("superuser@email.com", "superpassword", "TheDude")

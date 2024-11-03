@@ -1,4 +1,4 @@
-from schemas.base_schemas import TopicBaseSchema, PostBaseSchema
+from schemas.base_schemas import PostBaseSchema, TopicBaseSchema
 
 
 class CreateTopicRequestSchema(TopicBaseSchema):

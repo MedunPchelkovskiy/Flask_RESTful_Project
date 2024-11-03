@@ -1,4 +1,4 @@
-from marshmallow import fields, ValidationError, validate
+from marshmallow import ValidationError, fields, validate
 from zxcvbn import zxcvbn
 
 from models import UserModel
@@ -15,30 +15,32 @@ def check_password_strength(password):
 
 def check_email_in_database(email):
     if UserModel.query.filter(UserModel.email == email).first():
-        raise ValidationError('User with this email already exists')
+        raise ValidationError("User with this email already exists")
     else:
         pass
 
 
 def check_username_in_database(username):
     if UserModel.query.filter(UserModel.username == username).first():
-        raise ValidationError('User with this username already exists')
+        raise ValidationError("User with this username already exists")
     else:
         pass
 
 
 class UserRegisterRequestSchema(BaseUserSchema):
-    email = fields.Email(required=True,
-                         validate=validate.And(check_email_in_database)
-                         )
-    password = fields.String(required=True,
-                             validate=validate.And(validate.Length(min=9, max=42), check_password_strength)
-                             )
-    username = fields.String(min_length=2,
-                             max_length=22,
-                             required=True,
-                             validate=validate.And(check_username_in_database, )
-                             )
+    email = fields.Email(required=True, validate=validate.And(check_email_in_database))
+    password = fields.String(
+        required=True,
+        validate=validate.And(validate.Length(min=9, max=42), check_password_strength),
+    )
+    username = fields.String(
+        min_length=2,
+        max_length=22,
+        required=True,
+        validate=validate.And(
+            check_username_in_database,
+        ),
+    )
 
 
 class UserLoginRequestSchema(BaseUserSchema):

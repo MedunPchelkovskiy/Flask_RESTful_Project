@@ -2,9 +2,10 @@ from flask import request
 from flask_restful import Resource
 
 from helpers.decorators import validate_schema
-from managers.authentication import UserAuthManager
 from helpers.sign_up_confirmation_via_email import UserRegisterMailConfirmation
-from schemas.request.authentication import UserRegisterRequestSchema, UserLoginRequestSchema
+from managers.authentication import UserAuthManager
+from schemas.request.authentication import (UserLoginRequestSchema,
+                                            UserRegisterRequestSchema)
 from schemas.response.authentication import UserAuthenticationResponseSchema
 
 
@@ -21,7 +22,7 @@ class UserRegisterEmailConfirmationResource(Resource):
     @staticmethod
     def get(token):
         UserRegisterMailConfirmation.confirm_email(token)
-        return 'You have confirmed your account. Thanks!', 201
+        return "You have confirmed your account. Thanks!", 201
 
 
 class UserLoginResource(Resource):

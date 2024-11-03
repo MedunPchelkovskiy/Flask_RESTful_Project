@@ -1,6 +1,6 @@
 from marshmallow import Schema, fields
 
-from schemas.base_schemas import TopicBaseSchema, PostBaseSchema
+from schemas.base_schemas import PostBaseSchema, TopicBaseSchema
 
 
 class CreateTopicResponseSchema(TopicBaseSchema):
@@ -18,6 +18,7 @@ class CreatePostResponseSchema(PostBaseSchema):
 class GetTopicsResponseSchema(CreateTopicResponseSchema):
     pass
 
+
 class GetPostsResponseSchema(CreatePostResponseSchema):
     pass
 
@@ -28,7 +29,3 @@ class EditPostResponseSchema(CreatePostResponseSchema):
 
 class GetTopicWithPostsResponseSchema(CreateTopicResponseSchema):
     posts = fields.List(fields.Nested(CreatePostResponseSchema))
-
-
-
-

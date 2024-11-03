@@ -3,10 +3,14 @@ from flask_restful import Resource
 
 from helpers.decorators import validate_schema
 from managers.authentication import auth
-from managers.forum import TopicManager, PostManager
-from schemas.request.forum import CreateTopicRequestSchema, CreatePostRequestSchema
-from schemas.response.forum import CreateTopicResponseSchema, CreatePostResponseSchema, \
-    GetTopicWithPostsResponseSchema, GetTopicsResponseSchema, EditPostResponseSchema
+from managers.forum import PostManager, TopicManager
+from schemas.request.forum import (CreatePostRequestSchema,
+                                   CreateTopicRequestSchema)
+from schemas.response.forum import (CreatePostResponseSchema,
+                                    CreateTopicResponseSchema,
+                                    EditPostResponseSchema,
+                                    GetTopicsResponseSchema,
+                                    GetTopicWithPostsResponseSchema)
 
 
 class TopicsResource(Resource):
