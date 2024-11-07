@@ -10,7 +10,7 @@ class ProjectModel(db.Model):
     project_name = db.Column(db.String(255), nullable=False)
     project_description = db.Column(db.Text, nullable=False)
     project_creation_date_time = db.Column(
-        db.DateTime, default=datetime.now(timezone.utc)
+        db.DateTime, default=datetime.utcnow()                          # now(timezone.utc)
     )
     project_last_update_date_time = db.Column(db.DateTime, nullable=True)
     project_views_counter = db.Column(db.Integer, default=0)

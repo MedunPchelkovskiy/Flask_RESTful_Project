@@ -23,9 +23,9 @@ class ImagesManager:
         )  # Save files temporarly to server and delete it after uploading
         photo_as_string = image_data.pop(
             "image"
-        )                                                                   # фронт енд-а ни подава снимката като стринг(
-                                                                            # base64, to convert jpg => string
-                                                                            #  )
+        )  # фронт енд-а ни подава снимката като стринг(
+        # base64, to convert jpg => string
+        #  )
         decode_photo(path_to_store_photo, photo_as_string)
         try:
             ImagesOnCloud.upload_image(path_to_store_photo, photo_name)

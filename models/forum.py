@@ -11,7 +11,10 @@ class TopicModel(db.Model):
     topic_name = db.Column(db.String(255), nullable=False)
     categorys = db.Column(db.Enum(Category), nullable=False)
     topic_creation_date_time = db.Column(
-        db.DateTime, default=datetime.now(timezone.utc)
+        db.DateTime, default=datetime.utcnow()  # now(timezone.utc)
+    )
+    topic_last_update_date_time = db.Column(
+        db.DateTime, default=datetime.utcnow()  # now(timezone.utc)
     )
     topic_author = db.Column(db.String(255), nullable=True)
     posts = db.relationship("PostModel", back_populates="topic", lazy="dynamic")
@@ -22,7 +25,12 @@ class PostModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     text_of_post = db.Column(db.Text, nullable=False)
-    date_time_of_post = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    date_time_of_create_post = db.Column(
+        db.DateTime, default=datetime.utcnow()     # now(timezone.utc))
+    )
+    date_time_of_update_post = db.Column(
+        db.DateTime, default=datetime.utcnow()  # now(timezone.utc))
+    )
     post_author = db.Column(db.String(255), nullable=True)
     post_to_topic = db.Column(db.Integer, db.ForeignKey("topic.id"), nullable=False)
     topic = db.relationship("TopicModel", back_populates="posts")

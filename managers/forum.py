@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from werkzeug.exceptions import BadRequest, Unauthorized
 
 from db import db
@@ -26,6 +28,12 @@ class TopicManager:
         topics = TopicModel.query.all()
         return topics
 
+    @staticmethod
+    def delete_topic(topic):
+        db.session.delete(topic)
+        db.session.commit()
+        return
+
 
 class PostManager:
 
@@ -34,6 +42,8 @@ class PostManager:
         current_user = auth.current_user()
         data["post_author"] = current_user.username
         post = PostModel(**data)
+        current_topic = TopicManager.get_single_topic(post.post_to_topic)
+        current_topic.topic_last_update_date_time = datetime.utcnow()
         db.session.add(post)
         db.session.commit()
         return post
@@ -52,20 +62,24 @@ class PostManager:
 
     @staticmethod
     def delete_post(post):
-        current_user = auth.current_user()
-        if current_user.role == RoleType.moderator:
-            db.session.delete(post)
-            db.session.commit()
-        else:
-            raise Unauthorized("You have no permission")
+        # current_user = auth.current_user()
+        # if current_user.role == RoleType.moderator:
+        db.session.delete(post)
+        db.session.commit()
+        # else:
+        #     raise Unauthorized("You have no permission")
 
     @staticmethod
     def edit_post(post, data):
         current_user = auth.current_user()
         if not current_user.username == post.post_author:
             raise Unauthorized("You have no permission")
+        if datetime.utcnow().timestamp() - post.date_time_of_create_post.timestamp() > 360:
+            return "Time to update is end!"
         else:
             post.text_of_post = data["text_of_post"]
+            post.date_time_of_update_post = datetime.utcnow()
+            current_topic = TopicManager.get_single_topic(post.post_to_topic)
+            current_topic.topic_last_update_date_time = datetime.utcnow()
             db.session.commit()
-
         return post

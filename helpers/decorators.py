@@ -1,5 +1,7 @@
 from flask import request
-from werkzeug.exceptions import BadRequest
+from werkzeug.exceptions import BadRequest, Forbidden
+
+from managers.authentication import auth
 
 
 def validate_schema(schema_name):
@@ -15,3 +17,16 @@ def validate_schema(schema_name):
         return wrapper
 
     return decorated_function
+
+
+def permission_checker(role):
+    def function_to_decorate(funct):
+        def wrapper(*args, **kwargs):
+            user_to_check = auth.current_user()
+            if user_to_check.role == role:
+                return funct(*args, **kwargs)
+            raise Forbidden("You must have permission to do this!")
+
+        return wrapper
+
+    return function_to_decorate

@@ -1,9 +1,10 @@
 from flask import request
 from flask_restful import Resource
 
-from helpers.decorators import validate_schema
+from helpers.decorators import permission_checker, validate_schema
 from managers.authentication import auth
 from managers.forum import PostManager, TopicManager
+from models import RoleType
 from schemas.request.forum import (CreatePostRequestSchema,
                                    CreateTopicRequestSchema)
 from schemas.response.forum import (CreatePostResponseSchema,
@@ -15,8 +16,8 @@ from schemas.response.forum import (CreatePostResponseSchema,
 
 class TopicsResource(Resource):
 
-    @validate_schema(CreateTopicRequestSchema)
     @auth.login_required
+    @validate_schema(CreateTopicRequestSchema)
     def post(self):
         data = request.get_json()
         topic = TopicManager.create_topic(data)
@@ -27,32 +28,35 @@ class TopicsResource(Resource):
         return GetTopicsResponseSchema(many=True).dump(topics)
 
 
+class TopicResource(Resource):
+
+    @staticmethod
+    def get(pk):
+        topic = TopicManager.get_single_topic(pk)
+        return GetTopicWithPostsResponseSchema().dump(topic)
+
+    def put(self):  # TODO: make it not possible to update after few minutes from creating
+        pass
+
+    @staticmethod
+    @auth.login_required
+    @permission_checker(RoleType.moderator)
+    def delete(pk):
+        topic = TopicManager.get_single_topic(pk)
+        project_to_delete = TopicManager.delete_topic(topic)
+
+
 class PostsResource(Resource):
 
-    @validate_schema(CreatePostRequestSchema)
     @auth.login_required
+    @validate_schema(CreatePostRequestSchema)
     def post(self):
         data = request.get_json()
         post = PostManager.create_post(data)
         return CreatePostResponseSchema().dump(post), 201
 
 
-class TopicResource(Resource):
-
-    def get(self, pk):
-        topic = TopicManager.get_single_topic(pk)
-        return GetTopicWithPostsResponseSchema().dump(topic)
-
-    def put(self):
-        pass
-
-    # only moderators can delete topics
-    def delete(self):
-        pass
-
-
 class PostResource(Resource):
-
     @staticmethod
     @auth.login_required
     def put(pk):
@@ -62,7 +66,8 @@ class PostResource(Resource):
         return EditPostResponseSchema().dump(edited_post)
 
     @staticmethod
-    @auth.login_required  # only moderators can delete posts, try to make it with decorator
+    @auth.login_required
+    @permission_checker(RoleType.moderator)
     def delete(pk):
         post = PostManager.get_single_post(pk)
         post_for_delete = PostManager.delete_post(post)

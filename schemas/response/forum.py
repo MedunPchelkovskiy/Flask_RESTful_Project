@@ -11,7 +11,7 @@ class CreateTopicResponseSchema(TopicBaseSchema):
 
 class CreatePostResponseSchema(PostBaseSchema):
     id = fields.Integer(required=True)
-    date_time_of_post = fields.DateTime(required=True)
+    date_time_of_create_post = fields.DateTime(required=True)
     post_author = fields.String(required=True)
 
 
@@ -24,8 +24,9 @@ class GetPostsResponseSchema(CreatePostResponseSchema):
 
 
 class EditPostResponseSchema(CreatePostResponseSchema):
-    pass
+    date_time_of_update_post = fields.DateTime(required=True)
 
 
 class GetTopicWithPostsResponseSchema(CreateTopicResponseSchema):
+    topic_last_update_date_time = fields.DateTime(required=True)
     posts = fields.List(fields.Nested(CreatePostResponseSchema))

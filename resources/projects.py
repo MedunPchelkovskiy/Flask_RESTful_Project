@@ -44,7 +44,7 @@ class ProjectResource(Resource):
     @staticmethod
     @auth.login_required
     def delete(pk):
-        project = ProjectManager.get_project_to_update(pk)
+        project = ProjectManager.get_single_project(pk)
         project_to_delete = ProjectManager.delete_project(project)
 
         return "Project was successfully deleted"  # Try to replace "Project" with name of the project"
