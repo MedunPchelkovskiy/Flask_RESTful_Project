@@ -11,7 +11,7 @@ from schemas.response.images import UploadImageResponseSchema
 class ImagesResource(Resource):
     @validate_schema(UploadImageRequestSchema)
     @auth.login_required
-    def post(self):
+    def post(self, pk):
         data = request.get_json()
         image = ImagesManager.upload_image(data)
         return UploadImageResponseSchema().dump(image), 201

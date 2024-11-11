@@ -15,15 +15,15 @@ class TopicBaseSchema(Schema):
 
 class PostBaseSchema(Schema):
     text_of_post = fields.String(required=True)
-    post_to_topic = fields.Integer(required=True)
 
 
 class ProjectBaseSchema(Schema):
     project_name = fields.String(required=True)
     project_description = fields.String(required=True)
+    project_images = fields.String(required=False)
 
 
 class ImagesBaseSchema(Schema):
-    id = fields.Integer(required=True)
+    # id = fields.Integer(required=True)
     image_url = fields.String(required=True)
     image_uploading_date_time = fields.DateTime(required=True)

@@ -1,20 +1,18 @@
 import os
 import uuid
-from datetime import datetime
 
 from constants import TEMP_FILES_PATH
 from db import db
 from helpers.working_with_files import decode_photo
-from managers.projects import ProjectManager
 from models import ImageModel
 from serices.cloudinary_services import ImagesOnCloud
 
 
 class ImagesManager:
     @staticmethod
-    def upload_image(image_data):
-        current_project_id = image_data["image_to_project"]
-        current_project = ProjectManager.get_project_to_update(current_project_id)
+    def upload_image(image_data, pk):
+        # current_project_id = pk
+        # current_project = ProjectManager.get_project_to_update(current_project_id)
         # First upload the image in cloud storage and then we get only the path and store it in the data base.
 
         photo_name = f"{str(uuid.uuid4())}"
@@ -22,7 +20,7 @@ class ImagesManager:
             TEMP_FILES_PATH, photo_name
         )  # Save files temporarly to server and delete it after uploading
         photo_as_string = image_data.pop(
-            "image"
+            "project_images"
         )  # фронт енд-а ни подава снимката като стринг(
         # base64, to convert jpg => string
         #  )
@@ -36,9 +34,8 @@ class ImagesManager:
             os.remove(path_to_store_photo)
 
         image_data["image_url"] = image_url
+        image_data["image_to_project"] = pk
         image = ImageModel(**image_data)
-        current_project.project_last_update_date_time = datetime.utcnow()
-
         db.session.add(image)
         db.session.commit()
 

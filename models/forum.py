@@ -26,7 +26,7 @@ class PostModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text_of_post = db.Column(db.Text, nullable=False)
     date_time_of_create_post = db.Column(
-        db.DateTime, default=datetime.utcnow()     # now(timezone.utc))
+        db.DateTime, default=datetime.utcnow()  # now(timezone.utc))
     )
     date_time_of_update_post = db.Column(
         db.DateTime, default=datetime.utcnow()  # now(timezone.utc))

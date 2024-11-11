@@ -3,7 +3,9 @@ from datetime import datetime
 from werkzeug.exceptions import BadRequest
 
 from db import db
+from helpers.data_cleaning import clean_data_for_image
 from managers.authentication import auth
+# from managers.images import ImagesManager
 from models import ProjectModel
 
 
@@ -13,9 +15,17 @@ class ProjectsManager:
     def create_project(data):
         current_user = auth.current_user()
         data["project_author"] = current_user.id
+        if not data["project_images"]:
+            project = ProjectModel(**data)
+            db.session.add(project)
+            db.session.commit()
+        image_info = data.pop("project_images")
         project = ProjectModel(**data)
         db.session.add(project)
         db.session.commit()
+        data.update({"project_images": image_info})
+        clean_data_for_image(data)
+
         return project
 
 
@@ -44,11 +54,13 @@ class ProjectManager:
     @staticmethod
     def update_project(data, project):
         current_user = auth.current_user()
-        if project.project_author == current_user.id:
-            if project.project_name != data["project_name"]:
-                project.project_name = data["project_name"]
-            if project.project_description != data["project_description"]:
+        if (
+            project.project_author == current_user.id
+        ):  # TODO: try to make it to decorator
+            key_to_check = "project_description"
+            if key_to_check in data:
                 project.project_description = data["project_description"]
+                data.pop("project_description")
             project.project_last_update_date_time = datetime.utcnow()
             db.session.commit()
         return project
@@ -56,7 +68,9 @@ class ProjectManager:
     @staticmethod
     def delete_project(project):
         current_user = auth.current_user()
-        if project.project_author == current_user.id:
+        if (
+            project.project_author == current_user.id
+        ):  # TODO: try to make it to decorator
             db.session.delete(project)
             db.session.commit()
         return

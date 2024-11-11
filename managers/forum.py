@@ -1,10 +1,10 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from werkzeug.exceptions import BadRequest, Unauthorized
 
 from db import db
 from managers.authentication import auth
-from models import PostModel, RoleType, TopicModel
+from models import PostModel, TopicModel
 
 
 class TopicManager:
@@ -21,6 +21,8 @@ class TopicManager:
     @staticmethod
     def get_single_topic(topic_id):
         topic = TopicModel.query.filter_by(id=topic_id).first()
+        if not topic:
+            raise BadRequest("Topic with this id does not exist")
         return topic
 
     @staticmethod
@@ -34,15 +36,32 @@ class TopicManager:
         db.session.commit()
         return
 
+    @staticmethod
+    def edit_topic(topic, data):
+        current_user = auth.current_user()
+        if not current_user.username == topic.topic_author:
+            raise Unauthorized("You have no permission")
+        if (
+            datetime.utcnow().timestamp() - topic.topic_creation_date_time.timestamp()
+            > 360
+        ):
+            return "Time to update is end!"  # TODO: raise error, response schema return empty json!!!
+        else:
+            topic.topic_name = data["topic_name"]
+            topic.topic_last_update_date_time = datetime.utcnow()
+            db.session.commit()
+        return topic
+
 
 class PostManager:
 
     @staticmethod
-    def create_post(data):
+    def create_post(pk, data):
         current_user = auth.current_user()
         data["post_author"] = current_user.username
         post = PostModel(**data)
-        current_topic = TopicManager.get_single_topic(post.post_to_topic)
+        post.post_to_topic = pk
+        current_topic = TopicManager.get_single_topic(pk)
         current_topic.topic_last_update_date_time = datetime.utcnow()
         db.session.add(post)
         db.session.commit()
@@ -74,7 +93,10 @@ class PostManager:
         current_user = auth.current_user()
         if not current_user.username == post.post_author:
             raise Unauthorized("You have no permission")
-        if datetime.utcnow().timestamp() - post.date_time_of_create_post.timestamp() > 360:
+        if (
+            datetime.utcnow().timestamp() - post.date_time_of_create_post.timestamp()
+            > 360
+        ):
             return "Time to update is end!"
         else:
             post.text_of_post = data["text_of_post"]

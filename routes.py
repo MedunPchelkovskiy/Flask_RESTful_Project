@@ -10,15 +10,18 @@ from resources.user import UserResource
 
 routes = (
     (UserRegisterResource, "/signup"),
-    (UserRegisterEmailConfirmationResource,"/confirm/<token>",),  # confirmation link from email get method not allowed for requested method!!!
+    (
+        UserRegisterEmailConfirmationResource,
+        "/confirm/<token>",
+    ),  # confirmation link from email get method not allowed for requested method!!!
     (UserLoginResource, "/signin"),
     (GetBestProjectsResource, "/"),
     (ProjectCreateResource, "/projects"),
     (ProjectResource, "/project/<int:pk>"),
-    (ImagesResource, "/image"),
+    (ImagesResource, "/project/<int:pk>/image"),
     (TopicsResource, "/forum"),
     (TopicResource, "/forum/topic/<int:pk>"),
-    (PostsResource, "/post"),
+    (PostsResource, "/forum/topic/<int:pk>/post"),
     (PostResource, "/post/<int:pk>"),
     (UserResource, "/user/<int:pk>"),
 )

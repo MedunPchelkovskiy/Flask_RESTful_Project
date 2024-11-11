@@ -14,7 +14,7 @@ class UserModel(db.Model):
     password = db.Column(db.String(255), nullable=False)
     username = db.Column(db.String(255), nullable=True, unique=True)
     registered_at = db.Column(
-        db.DateTime, nullable=False, default=datetime.utcnow()                     # now(timezone.utc)
+        db.DateTime, nullable=False, default=datetime.utcnow()  # now(timezone.utc)
     )
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
     role = db.Column(db.Enum(RoleType), nullable=False, default=RoleType.user)

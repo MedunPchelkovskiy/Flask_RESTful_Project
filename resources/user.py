@@ -30,4 +30,4 @@ class UserResource(Resource):
         user = UserManager.get_single_user(pk)
         user_to_delete = UserManager.delete_user(user)
 
-        return "User was successfully deleted"  # Try to replace "User" with name of the project"
+        return "User was successfully deleted"  # Try to replace "User" with name of the project(what i mean?!?)"
