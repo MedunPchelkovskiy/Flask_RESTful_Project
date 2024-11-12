@@ -30,4 +30,5 @@ class TestProjectSchemas(TestBaseForApp):
         image = ImageFactory()
         result = self.client.put("/project/0", headers=headers, json=data)
 
-        assert result.status_code == 201
+        assert result.status_code == 400
+        assert result.json == {'message': {'_schema': ['At least one field is need to be filled.']}}

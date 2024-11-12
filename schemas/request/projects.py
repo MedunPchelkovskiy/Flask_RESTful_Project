@@ -13,6 +13,6 @@ class UpdateProjectRequestSchema(Schema):
     project_images = fields.String(required=False)
 
     @validates_schema
-    def fill_at_least_one_field(self, data):
+    def fill_at_least_one_field(self, data, **kwargs):
         if "project_description" not in data and "project_images" not in data:
             raise ValidationError("At least one field is need to be filled.")

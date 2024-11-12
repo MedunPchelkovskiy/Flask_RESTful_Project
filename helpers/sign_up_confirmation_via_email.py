@@ -51,7 +51,7 @@ class UserRegisterMailConfirmation:
             email = UserRegisterMailConfirmation.decode_confirmation_token(token)
         except:
             return "The confirmation link is invalid or has expired."
-        user = UserModel.query.filter_by(email=email).first_or_404()
+        user = UserModel.query.filter_by(email=email).first()
         if user.confirmed:
             return "Account already confirmed. Please login.", "success"
         else:
@@ -61,21 +61,23 @@ class UserRegisterMailConfirmation:
             db.session.commit()
             return "You have confirmed your account. Thanks!"
 
+class EmailSending:
 
-def send_email(email):
-    confirmation_token = UserRegisterMailConfirmation.generate_confirmation_token(email)
-    confirm_url = url_for(
-        "userregisteremailconfirmationresource",
-        token=confirmation_token,
-        _external=True,
-    )
-    html = render_template("base_email_template.html", confirm_url=confirm_url)
-    subject = "Please confirm your email"
-    message = create_message(
-        sender=config("MAIL_DEFAULT_SENDER"),
-        to=email,
-        subject=subject,
-        message_text=html,
-    )
-    service = gmail_authenticate()
-    send_message(service, message)
+    @staticmethod
+    def send_email(email):
+        confirmation_token = UserRegisterMailConfirmation.generate_confirmation_token(email)
+        confirm_url = url_for(
+            "userregisteremailconfirmationresource",
+            token=confirmation_token,
+            _external=True,
+        )
+        html = render_template("base_email_template.html", confirm_url=confirm_url)
+        subject = "Please confirm your email"
+        message = create_message(
+            sender=config("MAIL_DEFAULT_SENDER"),
+            to=email,
+            subject=subject,
+            message_text=html,
+        )
+        service = gmail_authenticate()
+        send_message(service, message)

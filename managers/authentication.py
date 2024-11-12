@@ -7,7 +7,7 @@ from flask_httpauth import HTTPTokenAuth
 from werkzeug.exceptions import BadRequest, Unauthorized
 
 from db import db
-from helpers.sign_up_confirmation_via_email import send_email
+from helpers.sign_up_confirmation_via_email import EmailSending
 from models.users import UserModel
 
 
@@ -21,7 +21,7 @@ class UserAuthManager:
         db.session.add(user)
         db.session.commit()
         mail = user.email
-        send_email(mail)
+        EmailSending.send_email(mail)
 
         return user
 
