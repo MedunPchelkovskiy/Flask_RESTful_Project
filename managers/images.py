@@ -35,6 +35,7 @@ class ImagesManager:
 
         image_data["image_url"] = image_url
         image_data["image_to_project"] = pk
+        image_data.pop("project_author")
         image = ImageModel(**image_data)
         db.session.add(image)
         db.session.commit()

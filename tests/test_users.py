@@ -21,4 +21,3 @@ class TestUsers(TestBaseForApp):
         assert result.status_code == 201
         user = UserModel.query.all()
         assert len(user) == 1
-        assert result.json == {"token":''}

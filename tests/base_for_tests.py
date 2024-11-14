@@ -4,6 +4,10 @@ from config import create_app
 from db import db
 
 
+def mock_uuid():
+    return "1234-5678"
+
+
 class TestBaseForApp(TestCase):
     def create_app(self):
         return create_app("config.TestingConfig")
