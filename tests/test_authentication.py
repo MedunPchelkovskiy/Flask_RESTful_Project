@@ -1,13 +1,8 @@
 from managers.authentication import UserAuthManager
 from models import RoleType
 from tests.base_for_tests import TestBaseForApp
-from tests.factory import (
-    ImageFactory,
-    PostFactory,
-    ProjectFactory,
-    TopicFactory,
-    UserFactory,
-)
+from tests.factory import (ImageFactory, PostFactory, ProjectFactory,
+                           TopicFactory, UserFactory)
 
 
 class TestOnlyAuthenticatedUsersAccess(TestBaseForApp):

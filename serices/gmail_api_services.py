@@ -6,7 +6,6 @@ from email.mime.text import MIMEText
 from decouple import config
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
-
 # Gmail API utils
 from googleapiclient.discovery import build
 

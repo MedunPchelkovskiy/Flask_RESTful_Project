@@ -1,10 +1,10 @@
 from unittest.mock import patch
 
 from managers.authentication import UserAuthManager
-from models import RoleType, ProjectModel, ImageModel
+from models import ImageModel, ProjectModel, RoleType
 from serices.cloudinary_services import ImagesOnCloud
 from tests.base_for_tests import TestBaseForApp
-from tests.factory import UserFactory, ProjectFactory
+from tests.factory import ProjectFactory, UserFactory
 from tests.helpers import converted_image
 
 

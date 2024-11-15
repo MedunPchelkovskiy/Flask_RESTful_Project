@@ -4,10 +4,8 @@ from flask_restful import Resource
 from helpers.decorators import validate_schema
 from helpers.sign_up_confirmation_via_email import UserRegisterMailConfirmation
 from managers.authentication import UserAuthManager
-from schemas.request.authentication import (
-    UserLoginRequestSchema,
-    UserRegisterRequestSchema,
-)
+from schemas.request.authentication import (UserLoginRequestSchema,
+                                            UserRegisterRequestSchema)
 from schemas.response.authentication import UserAuthenticationResponseSchema
 
 

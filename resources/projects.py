@@ -5,15 +5,11 @@ from helpers.decorators import validate_schema
 from managers.authentication import auth
 from managers.images import ImagesManager
 from managers.projects import ProjectManager, ProjectsManager
-from schemas.request.projects import (
-    CreateProjectRequestSchema,
-    UpdateProjectRequestSchema,
-)
-from schemas.response.projects import (
-    CreateProjectResponseSchema,
-    GetProjectWithImagesResponseSchema,
-    UpdateProjectResponseSchema,
-)
+from schemas.request.projects import (CreateProjectRequestSchema,
+                                      UpdateProjectRequestSchema)
+from schemas.response.projects import (CreateProjectResponseSchema,
+                                       GetProjectWithImagesResponseSchema,
+                                       UpdateProjectResponseSchema)
 
 
 class ProjectCreateResource(Resource):

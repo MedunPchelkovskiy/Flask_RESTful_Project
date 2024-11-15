@@ -5,15 +5,14 @@ from helpers.decorators import permission_checker, validate_schema
 from managers.authentication import auth
 from managers.forum import PostManager, TopicManager
 from models import RoleType
-from schemas.request.forum import CreatePostRequestSchema, CreateTopicRequestSchema
-from schemas.response.forum import (
-    CreatePostResponseSchema,
-    CreateTopicResponseSchema,
-    EditPostResponseSchema,
-    EditTopicResponseSchema,
-    GetTopicsResponseSchema,
-    GetTopicWithPostsResponseSchema,
-)
+from schemas.request.forum import (CreatePostRequestSchema,
+                                   CreateTopicRequestSchema)
+from schemas.response.forum import (CreatePostResponseSchema,
+                                    CreateTopicResponseSchema,
+                                    EditPostResponseSchema,
+                                    EditTopicResponseSchema,
+                                    GetTopicsResponseSchema,
+                                    GetTopicWithPostsResponseSchema)
 
 
 class TopicsResource(Resource):

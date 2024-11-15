@@ -5,7 +5,6 @@ from werkzeug.exceptions import BadRequest
 from db import db
 from helpers.data_cleaning import clean_data_for_image
 from managers.authentication import auth
-
 # from managers.images import ImagesManager
 from models import ProjectModel
 

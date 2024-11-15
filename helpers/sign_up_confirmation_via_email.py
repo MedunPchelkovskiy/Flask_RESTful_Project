@@ -6,7 +6,8 @@ from itsdangerous import URLSafeTimedSerializer
 
 from db import db
 from models import UserModel
-from serices.gmail_api_services import create_message, gmail_authenticate, send_message
+from serices.gmail_api_services import (create_message, gmail_authenticate,
+                                        send_message)
 
 
 class UserRegisterMailConfirmation:

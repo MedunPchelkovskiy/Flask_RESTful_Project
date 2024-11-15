@@ -1,7 +1,7 @@
 from unittest.mock import patch
 
-from helpers.sign_up_confirmation_via_email import EmailSending
-from helpers.sign_up_confirmation_via_email import UserRegisterMailConfirmation
+from helpers.sign_up_confirmation_via_email import (
+    EmailSending, UserRegisterMailConfirmation)
 from managers.authentication import UserAuthManager
 from models import UserModel
 from tests.base_for_tests import TestBaseForApp
@@ -36,7 +36,9 @@ class TestUsers(TestBaseForApp):
         }
 
         email = users[0].email
-        confirmation_token = UserRegisterMailConfirmation.generate_confirmation_token(email)
+        confirmation_token = UserRegisterMailConfirmation.generate_confirmation_token(
+            email
+        )
         url = f"/confirm/{confirmation_token}"
 
         result = self.client.get(url, headers=headers)

@@ -3,7 +3,8 @@ from flask_restful import Resource
 
 from managers.authentication import auth
 from managers.users import UserManager
-from schemas.response.user import GetUserResponseSchema, UserUpdateResponseSchema
+from schemas.response.user import (GetUserResponseSchema,
+                                   UserUpdateResponseSchema)
 
 
 class UserResource(Resource):

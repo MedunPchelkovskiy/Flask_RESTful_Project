@@ -1,16 +1,11 @@
 from datetime import datetime
 
-from factory import RelatedFactoryList, SelfAttribute, SubFactory, Factory, Sequence, Faker
+from factory import (Factory, Faker, RelatedFactoryList, SelfAttribute,
+                     Sequence, SubFactory)
 
 from db import db
-from models import (
-    Category,
-    PostModel,
-    ProjectModel,
-    RoleType,
-    TopicModel,
-    UserModel, ImageModel,
-)
+from models import (Category, ImageModel, PostModel, ProjectModel, RoleType,
+                    TopicModel, UserModel)
 
 
 class FactoryBase(Factory):
