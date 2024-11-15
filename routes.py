@@ -1,11 +1,15 @@
-from resources.authentication import (UserLoginResource,
-                                      UserRegisterEmailConfirmationResource,
-                                      UserRegisterResource)
-from resources.forum import (PostResource, PostsResource, TopicResource,
-                             TopicsResource)
+from resources.authentication import (
+    UserLoginResource,
+    UserRegisterEmailConfirmationResource,
+    UserRegisterResource,
+)
+from resources.forum import PostResource, PostsResource, TopicResource, TopicsResource
 from resources.images import ImagesResource
-from resources.projects import (GetBestProjectsResource, ProjectCreateResource,
-                                ProjectResource)
+from resources.projects import (
+    GetBestProjectsResource,
+    ProjectCreateResource,
+    ProjectResource,
+)
 from resources.user import UserResource
 
 routes = (

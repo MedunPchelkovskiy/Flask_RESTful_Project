@@ -6,8 +6,7 @@ from itsdangerous import URLSafeTimedSerializer
 
 from db import db
 from models import UserModel
-from serices.gmail_api_services import (create_message, gmail_authenticate,
-                                        send_message)
+from serices.gmail_api_services import create_message, gmail_authenticate, send_message
 
 
 class UserRegisterMailConfirmation:
@@ -61,11 +60,14 @@ class UserRegisterMailConfirmation:
             db.session.commit()
             return "You have confirmed your account. Thanks!"
 
+
 class EmailSending:
 
     @staticmethod
     def send_email(email):
-        confirmation_token = UserRegisterMailConfirmation.generate_confirmation_token(email)
+        confirmation_token = UserRegisterMailConfirmation.generate_confirmation_token(
+            email
+        )
         confirm_url = url_for(
             "userregisteremailconfirmationresource",
             token=confirmation_token,

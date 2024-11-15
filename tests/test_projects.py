@@ -32,7 +32,9 @@ class TestProjectSchemas(TestBaseForApp):
 
     @patch.object(ImagesOnCloud, "get_asset_info", return_value="image_on_cloud_url")
     @patch.object(ImagesOnCloud, "upload_image", return_value=None)
-    def test_create_and_update_project_with_photo_upload(self, mock_cloudinary_upload, mock_get_asset_info):
+    def test_create_and_update_project_with_photo_upload(
+        self, mock_cloudinary_upload, mock_get_asset_info
+    ):
         projects = ProjectModel.query.all()
         assert len(projects) == 0
 
@@ -46,10 +48,11 @@ class TestProjectSchemas(TestBaseForApp):
             "Content-Type": "application/json",
         }
 
-        data = {"project_name": "Test Project",
-                "project_description": "Description for test project",
-                "project_images": converted_image
-                }
+        data = {
+            "project_name": "Test Project",
+            "project_description": "Description for test project",
+            "project_images": converted_image,
+        }
 
         result = self.client.post("/projects", headers=headers, json=data)
 
@@ -65,7 +68,9 @@ class TestProjectSchemas(TestBaseForApp):
         result = self.client.put("/project/0", headers=headers, json=data)
 
         assert result.status_code == 400
-        assert result.json == {'message': {'_schema': ['At least one field is need to be filled.']}}
+        assert result.json == {
+            "message": {"_schema": ["At least one field is need to be filled."]}
+        }
 
 
 class TestProjectCreateAndUpdateMethods(TestBaseForApp):
@@ -83,7 +88,6 @@ class TestProjectCreateAndUpdateMethods(TestBaseForApp):
         assert len(projects) == 1
 
         data = {"project_description": "Description for test project"}
-                # "project_images": converted_image}
 
         result = self.client.put("/project/0", headers=headers, json=data)
 
